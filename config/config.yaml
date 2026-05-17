@@ -1,0 +1,17 @@
+default:
+  base_url: "https://rahulshettyacademy.com/AutomationPractice/"
+  browser: "chromium"
+  headless: true
+  timeout: 10000
+  slow_mo: 0
+  screenshot_on_failure: true
+  video_on_failure: false
+
+qa:
+  base_url: "https://rahulshettyacademy.com/AutomationPractice/"
+  browser: "chromium"
+  headless: true
+  timeout: 10000
+  slow_mo: 0
+  screenshot_on_failure: true
+  video_on_failure: false

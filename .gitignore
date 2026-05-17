@@ -1,0 +1,71 @@
+.pytest_cache/
+__pycache__/
+*.py[cod]
+.venv/
+logs/
+reports/
+screenshots/
+
+
+# --- Python Artifacts ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.pyc
+
+# --- Virtual Environments & Dependencies ---
+venv/
+.venv/
+env/
+ENV/
+
+# --- Web Automation & Test Artifacts ---
+# Screenshot directories
+/screenshots/
+/failed_screenshots/
+
+# Download folders used during tests
+/downloads/
+
+
+# Video recordings of Playwright/Selenium tests
+/test-results/
+/videos/
+/traces/
+
+# Allure report outputs
+/allure-results/
+/allure-report/
+
+# Pytest debug logs
+pytestdebug.log
+
+# --- IDE & OS Junk ---
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+
+# Linux
+*~
+.fuse_hidden*
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+*.srf
+*.pydevproject
+.project
+.settings
+
