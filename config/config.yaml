@@ -1,17 +1,31 @@
 default:
   base_url: "https://rahulshettyacademy.com/AutomationPractice/"
   browser: "chromium"
-  headless: true
+  headless: false
   timeout: 10000
   slow_mo: 0
+  viewport_width: 1366
+  viewport_height: 768
+  locale: "en-US"
+  timezone_id: "Asia/Kolkata"
+  ignore_https_errors: false
   screenshot_on_failure: true
   video_on_failure: false
+  trace_on_failure: true
+  capture_browser_logs: true
 
 qa:
   base_url: "https://rahulshettyacademy.com/AutomationPractice/"
   browser: "chromium"
-  headless: true
+  headless: false
   timeout: 10000
   slow_mo: 0
+  viewport_width: 1366
+  viewport_height: 768
+  locale: "en-US"
+  timezone_id: "Asia/Kolkata"
+  ignore_https_errors: false
   screenshot_on_failure: true
   video_on_failure: false
+  trace_on_failure: true
+  capture_browser_logs: true

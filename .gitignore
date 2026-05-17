@@ -5,6 +5,7 @@ __pycache__/
 logs/
 reports/
 screenshots/
+artifacts/
 
 
 # --- Python Artifacts ---
@@ -68,4 +69,3 @@ Icon?
 *.pydevproject
 .project
 .settings
-

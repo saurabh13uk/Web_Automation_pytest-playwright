@@ -9,10 +9,8 @@ config/              environment configuration
 core/                BasePage and reusable browser actions
 pages/               Page Object Model classes
 tests/               Pytest test suites
-utils/               config, logger, requests API helper
-reports/             generated HTML reports
-screenshots/         failure screenshots
-logs/                automation logs
+utils/               config, artifacts, logger, requests API helper
+artifacts/           timestamped run reports, logs, screenshots, traces, videos
 test_data/           test data files
 ```
 
@@ -33,26 +31,37 @@ python3 -m pytest -m smoke
 python3 -m pytest --target-browser chromium --run-headed --action-slowmo 300
 python3 -m pytest --target-env qa --app-url https://rahulshettyacademy.com/AutomationPractice/
 python3 -m pytest --capture-screenshot off
+python3 -m pytest --capture-trace on --capture-video on
+python3 -m pytest --artifact-root artifacts
 ```
 
 ## Reporting
 
+Each execution creates a timestamped artifact folder:
+
+```text
+artifacts/YYYYMMDD_HHMMSS/
+```
+
 The HTML report is generated at:
 
 ```text
-reports/extent_report.html
-```
-
-Failure screenshots are saved under:
-
-```text
-screenshots/
+artifacts/YYYYMMDD_HHMMSS/reports/extent_report.html
 ```
 
 Logs are saved under:
 
 ```text
-logs/automation.log
+artifacts/YYYYMMDD_HHMMSS/logs/automation.log
+```
+
+Failure screenshots, Playwright traces, videos, and browser console/network logs are saved under:
+
+```text
+artifacts/YYYYMMDD_HHMMSS/screenshots/
+artifacts/YYYYMMDD_HHMMSS/traces/
+artifacts/YYYYMMDD_HHMMSS/videos/
+artifacts/YYYYMMDD_HHMMSS/browser_logs/
 ```
 
 ## Implemented Coverage
@@ -67,6 +76,8 @@ logs/automation.log
 - Handle JavaScript alert.
 - Hide and show textbox.
 - Validate application reachability with a `requests` utility.
+- Capture screenshots, traces, browser console logs, network failures, URL, and page title on failure.
+- Add run metadata to the HTML report.
 
 ## IDE Import
 

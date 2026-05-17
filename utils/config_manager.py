@@ -18,6 +18,13 @@ class FrameworkConfig:
     slow_mo: int
     screenshot_on_failure: bool
     video_on_failure: bool
+    trace_on_failure: bool
+    capture_browser_logs: bool
+    viewport_width: int
+    viewport_height: int
+    locale: str | None
+    timezone_id: str | None
+    ignore_https_errors: bool
 
 
 def _as_bool(value: Any) -> bool:
@@ -33,6 +40,8 @@ def load_config(
     headed: bool = False,
     slow_mo: int | None = None,
     screenshot: bool | None = None,
+    video: bool | None = None,
+    trace: bool | None = None,
 ) -> FrameworkConfig:
     if not CONFIG_FILE.exists():
         raise FileNotFoundError(f"Config file not found: {CONFIG_FILE}")
@@ -55,5 +64,12 @@ def load_config(
         screenshot_on_failure=_as_bool(
             values["screenshot_on_failure"] if screenshot is None else screenshot
         ),
-        video_on_failure=_as_bool(values["video_on_failure"]),
+        video_on_failure=_as_bool(values["video_on_failure"] if video is None else video),
+        trace_on_failure=_as_bool(values["trace_on_failure"] if trace is None else trace),
+        capture_browser_logs=_as_bool(values["capture_browser_logs"]),
+        viewport_width=int(values["viewport_width"]),
+        viewport_height=int(values["viewport_height"]),
+        locale=values.get("locale"),
+        timezone_id=values.get("timezone_id"),
+        ignore_https_errors=_as_bool(values["ignore_https_errors"]),
     )
