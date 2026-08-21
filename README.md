@@ -26,6 +26,7 @@ python3 -m playwright install
 ## Run Tests
 
 ```bash
+python3 runner.py -t smoke -b chromium 
 python3 -m pytest
 python3 -m pytest -m smoke
 python3 -m pytest --target-browser chromium --run-headed --action-slowmo 300
