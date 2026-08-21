@@ -13,6 +13,7 @@ from playwright.sync_api import Browser, BrowserContext, Page, Playwright, sync_
 from utils.artifact_manager import ArtifactManager
 from utils.config_manager import FrameworkConfig, load_config
 from utils.logger import configure_logging, get_logger
+from utils.file_folder import log_test_result
 
 
 SUPPORTED_BROWSERS = {"chromium", "firefox", "webkit"}
@@ -311,3 +312,16 @@ def _set_report_metadata(config: pytest.Config, artifact_manager: ArtifactManage
         existing = getattr(config, "_metadata", {})
         existing.update(metadata)
         config._metadata = existing
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    # Execute all other hooks to obtain the report object
+    outcome = yield
+    report = outcome.get_result()
+
+    # Log only when the main test execution phase ("call") finishes
+    if report.when == "call":
+        test_name = item.nodeid  # e.g., 'tests/test_practice.py::test_practice_page_loads'
+        status = report.outcome.upper()  # 'PASSED', 'FAILED', or 'SKIPPED'
+
+        log_test_result(test_name, status)

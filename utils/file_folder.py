@@ -70,3 +70,9 @@ def create_file_and_folder():
         with open(TEST_RESULT_CSV, mode="x", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(["Test Name", "Status",]) 
+
+def log_test_result(test_name: str, status: str):
+    """Append a test execution outcome row to test_results.csv."""
+    with open(TEST_RESULT_CSV, mode="a", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerow([test_name, status])

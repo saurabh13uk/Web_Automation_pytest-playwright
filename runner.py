@@ -68,7 +68,7 @@ def build_pytest_args(cli_args):
     return args
 
 
-def send_report_email(report_path=None):
+def send_report_email(zip_path=None):
     """Trigger email delivery post-execution with optional attachment."""
     if not config.recipients:
         print("No recipients configured. Skipping email delivery.")
@@ -94,15 +94,15 @@ def send_report_email(report_path=None):
     """
     msg.attach(MIMEText(body, "html"))
 
-    # Handle HTML/ZIP report file attachment if provided
-    if report_path and os.path.exists(report_path):
-        with open(report_path, "rb") as attachment:
-            part = MIMEBase("application", "octet-stream")
+    # Attach the ZIP file if available
+    if zip_path and os.path.exists(zip_path):
+        with open(zip_path, "rb") as attachment:
+            part = MIMEBase("application", "zip")
             part.set_payload(attachment.read())
         encoders.encode_base64(part)
-        filename = os.path.basename(report_path)
+        filename = os.path.basename(zip_path)
         part.add_header(
-            "Content-Disposition", f"attachment; filename= {filename}"
+            "Content-Disposition", f"attachment; filename={filename}"
         )
         msg.attach(part)
 
@@ -126,6 +126,25 @@ def cleanup_and_prep_directories():
 
     file_folder.create_file_and_folder()
 
+def create_reports_zip(reports_dir="reports", output_zip="execution_report"):
+    """Compress the reports directory into a ZIP file."""
+    if not os.path.exists(reports_dir) or not os.listdir(reports_dir):
+        print(
+            f"Directory '{reports_dir}' is missing or empty. Skipping ZIP creation."
+        )
+        return None
+
+    try:
+        # Archives 'reports' directory into 'execution_report.zip'
+        zip_path = shutil.make_archive(
+            base_name=output_zip, format="zip", root_dir=reports_dir
+        )
+        print(f"Created reports archive: {zip_path}")
+        return zip_path
+    except Exception as e:
+        print(f"Failed to create ZIP archive: {e}")
+        return None
+
 
 def main():
     cli_args = parse_cli_args()
@@ -144,8 +163,11 @@ def main():
         print("No tests collected. Skipping email report generation.")
     # Trigger post-execution reporting
     elif config.email_report:
-        # Pass path to report if generated (e.g., "reports/report.html")
-        send_report_email("reports/report.html")
+        # Create ZIP archive from the reports folder and send email
+        zip_file = create_reports_zip(
+            reports_dir="reports", output_zip="execution_report"
+        )
+        send_report_email(zip_file)
 
 
 if __name__ == "__main__":
